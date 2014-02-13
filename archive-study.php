@@ -74,7 +74,15 @@
 					?>
 									
 			<ul class="studies">
-				<li class="studies-header"><div class="posttitle-header">Name</div><div class="status-header">Status</div><div class="date-header">Open Date</div><div class="date-header">Close Date</div></li>
+				<li class="studies-header">
+					<div class="posttitle-header">Name</div>
+					<div class="status-header">Status</div>
+					<div class="format-header">Format</div>
+					<div class="length-header">Length</div>
+					<div class="incentive-header">Incentive</div>
+
+					<div class="date-header">Close Date</div>
+					</li>
 	
                     <?php while ( have_posts()) : the_post(); ?>
                         <?php do_action( 'bp_before_blog_post' );
@@ -104,8 +112,20 @@
 									<?php endif; ?>
 								</div>
 								<div class="study-status <?php echo "study-status-".$studystatus; ?>"><?php echo ucwords($studystatus); ?></div>
-								<div class="date"><?php the_time('F j, Y') ?></div>
-								<div class="date"><? echo gmdate("l, F j, Y", $studymeta['wpcf-end-date'][0]); ?></div>
+								<div class="study-format"><?php echo $studymeta['wpcf-format'][0] ?></div>
+								<div class="study-length">
+								<?php 
+									if ($studymeta['wpcf-length'][0]!='') :
+										echo $studymeta['wpcf-length'][0]." min.";  
+									endif; ?>
+								</div>
+								<div class="study-incentive">
+								<?php 
+									if ($studymeta['wpcf-incentive-amount'][0]!=0) :
+										echo "$".$studymeta['wpcf-incentive-amount'][0];  
+									endif; ?>
+								</div>
+								<div class="date"><? echo gmdate("D, M j, Y", $studymeta['wpcf-end-date'][0]); ?></div>
 							</div>
 							<div id="study-areas-<?php the_ID(); ?>" class="studies-row study-areas-row">
 								<div colspan="4" class="study-areas <?php echo $rowclass; ?>">
@@ -151,13 +171,11 @@
 											echo "<span class='study-field-label'>Length:</span> ".$studymeta['wpcf-length'][0]." minutes<br />";
 										endif;
 										
-										if ($studymeta['wpcf-incentive-type'][0]=='Monetary') :
+										if ($studymeta['wpcf-incentive-amount'][0]!=0) :
 											echo "<span class='study-field-label'>Incentive:</span> $".$studymeta['wpcf-incentive-amount'][0]."<br />";
-										elseif ($studymeta['wpcf-incentive-type'][0]=='Non-monetary') :
-											echo "<span class='study-field-label'>Incentive:</span> ".$studymeta['wpcf-incentive-description'][0]."<br />";
 										endif;
 									?>
-									<div class="study-link"><a href="<?php echo $studymeta['wpcf-study-url'][0] ?>" class="study-link-button button">Proceed to the Study</a></div>
+									<div class="study-link"><a href="<?php echo $studymeta['wpcf-study-url'][0] ?>" class="study-link-button button">Go to Screening Application</a></div>
 									</div>
 									
 								</div>
