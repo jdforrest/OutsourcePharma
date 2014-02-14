@@ -927,7 +927,7 @@ li.studies-header {
 	font-weight: 600;
 	color: #404040;
 	margin: 0;
-	padding: 0;
+	padding: 0 4px 0 4px;
 	}
 
 ul.studies li.study {
@@ -935,32 +935,34 @@ ul.studies li.study {
 	padding: 4px;
 	}
 
-ul.studies li.studies-header div {
-	padding: 1px;
-	}
-	
 ul.studies div {
 	display: inline-block;
-	margin: 0;
-	padding: 0;
+	margin: 0px;
+	padding: 0px;
 	}
 
 ul.studies div.posttitle, ul.studies div.posttitle-header {
-	width: 45%;
-	margin: 0;
-	padding: 0;
+	width: 35%;
 	}
 	
 ul.studies div.study-status, ul.studies div.status-header {
 	width: 10%;
-	margin: 0;
-	padding: 0;
+	}
+
+ul.studies div.study-format, ul.studies div.format-header {
+	width: 15%;
+	}
+	
+ul.studies div.study-length, ul.studies div.length-header {
+	width: 10%;
+	}
+	
+ul.studies div.study-incentive, ul.studies div.incentive-header {
+	width: 12%;
 	}
 	
 ul.studies div.date, ul.studies div.date-header {
-	width: 20%;
-	margin: 0;
-	padding: 0;
+	width: 12%;
 	}
 	
 ul.studies div.studies-row {
