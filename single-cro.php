@@ -48,7 +48,7 @@
 							<div class="entry">
 								<div class="cro-average-rating">Average rating will go here!!</div>
 							    <div class="cro-info">
-							        <div class="address-block">
+							        <div class="address-block"> <!-- displays CRO info (not just address) defined in dashboard in Types plugin -->
 								        <?php $crometa=get_post_meta($post->ID);
 									        if (!($crometa['wpcf-address'][0]=='')) { echo $crometa['wpcf-address'][0]."<br />"; }
 											if (!($crometa['wpcf-city'][0]=='')) { echo $crometa['wpcf-city'][0]; }
@@ -62,29 +62,40 @@
 										?>
 							        </div> <!-- .address-block -->
 							    </div> <!-- .cro-info -->
+							    
+							    <!-- for featured image, though might need to be placed in a div. Present two options for image location, though not sure why at the moment. -->
 								<?php if ($single_class == 'single-img-left-content-right' || $single_class == 'single-img-right-content-left' || $single_class == 'single-img-over-content'){ ?>
 									<?php the_post_thumbnail()?>
 								<?php } ?>
-								<?php the_content( __( 'Read the rest of this entry &rarr;', 'cc' ) ); ?>
+								
+								<?php the_content(); ?>
+								
+								<!-- placing image after content depending on $single_class -->
 								<?php if ($single_class == 'single-img-under-content'){ ?>
 									<?php the_post_thumbnail()?>
 								<?php } ?>
 								<div class="clear"></div>
+								
+								<!-- This is for when we have lots of reviews on the main page -->
 								<?php wp_link_pages(array('before' => __( '<p class="cc_pagecount"><strong>Pages:</strong> ', 'cc' ), 'after' => '</p>', 'next_or_number' => 'number')); ?>
 							</div><!-- .entry -->
 
 							<div class="clear"></div>
-
+							
+							<!-- code to display tags, but current custom field using Types plugin doesn't use tags, so removing for now -->
+							<!--
 							<?php if($cc_post_options['cc_post_template_tags'] != '1') {?>
 								<?php $tags = get_the_tags(); if($tags)	{  ?>
 									<p class="postmetadata"><span class="tags"><?php the_tags( __( 'Tags: ', 'cc' ), ', ', '<br />'); ?></span></p>
 								<?php } ?>
 							<?php } ?>
-
+							-->
+							
+							<!-- closes div opened on line 43 -->
 							<?php if ($single_class != false){ ?>
 								</div>
 							<?php } ?>
-
+							
 						</div><!-- .post-content -->
 					</div><!-- #post -->
 
@@ -120,9 +131,6 @@
 
 					<div class="alignleft"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'cc' ) . '</span> %title' ); ?></div>
 					<div class="alignright"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'cc' ) . '</span>' ); ?></div>
-                  
-					<!-- don't think this call is needed since the comments are regulated using the Types plugin and the custom field "Reviews". Leaving it in for now. -->
-					<?php comments_template(); ?>
 
 					<?php endwhile; else: ?>
 						<p><?php _e( 'Sorry, no posts matched your criteria.', 'cc' ) ?></p>
