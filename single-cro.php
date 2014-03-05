@@ -9,7 +9,8 @@
 				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
 					<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-
+						
+						<!-- specific to the theme, necessary for styling and images on this page -->
 						<?php
 							global $cc_post_options;
 							$cc_post_options=cc_get_post_meta();
@@ -46,7 +47,7 @@
                             <?php get_posts_titles(get_the_title(), get_the_ID()); ?>
 
 							<div class="entry">
-								<div class="cro-average-rating">Average rating will go here!!</div>
+								<div class="cro-average-rating opab-review-rating opab-review-rating-<?php echo average_rating(); ?>" title="Rating: <?php echo average_rating(); ?>"></div>
 							    <div class="cro-info">
 							        <div class="address-block"> <!-- displays CRO info (not just address) defined in dashboard in Types plugin -->
 								        <?php $crometa=get_post_meta($post->ID);
@@ -63,7 +64,7 @@
 							        </div> <!-- .address-block -->
 							    </div> <!-- .cro-info -->
 							    
-							    <!-- for featured image, though might need to be placed in a div. Present two options for image location, though not sure why at the moment. -->
+							    <!-- for featured image, though might need to be placed in a div. Present two options for image location -->
 								<?php if ($single_class == 'single-img-left-content-right' || $single_class == 'single-img-right-content-left' || $single_class == 'single-img-over-content'){ ?>
 									<?php the_post_thumbnail()?>
 								<?php } ?>
@@ -82,7 +83,7 @@
 
 							<div class="clear"></div>
 							
-							<!-- code to display tags, but current custom field using Types plugin doesn't use tags, so removing for now -->
+							<!-- code to display tags, but currently not using them, but client might want tags in the future-->
 							<!--
 							<?php if($cc_post_options['cc_post_template_tags'] != '1') {?>
 								<?php $tags = get_the_tags(); if($tags)	{  ?>
@@ -110,7 +111,8 @@
 				         print_r( $crochildren ); */
 				        if ( $crochildren ) {
 				       		foreach ( $crochildren as $crochild ) {
-				            	$childrating = get_post_meta($crochild->ID,'wpcf-rating',TRUE);
+				       			//need to multiply childrating by 10 in order to deal with decimals, which we won't have here, but are needed for the average rating above
+				            	$childrating = (get_post_meta($crochild->ID,'wpcf-rating',TRUE))*10;
 				                $childurl = get_permalink ( $crochild ); ?>
 				                <div class="review" id="review-<?php echo $crochild->ID; ?>">
 				                	<div class="author-box visible-desktop">
@@ -121,7 +123,8 @@
 				                    	<a href="<?php echo $childurl; ?>"><?php echo apply_filters( 'the_title' , $crochild->post_title );?></a>
 				                    </h4>
 				                    <div class="opab-review-rating opab-review-rating-<?php echo $childrating; ?>" title="Rating: <?php echo $childrating; ?>">
-                                    	<?php echo "Rating: ".$childrating; ?>
+                                    	<!-- this line won't display unless star images don't load -->
+                                    	<?php echo "Rating: ".$childrating/10; ?>
                                     </div>
                                     <div class="review-body">
                                     	<?php echo $crochild->post_content.'</div></div> <br />';

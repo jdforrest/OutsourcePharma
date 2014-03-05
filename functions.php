@@ -1263,10 +1263,10 @@ function my_login_logo() { ?>
 <?php }
 add_action( 'login_enqueue_scripts', 'my_login_logo' );
 
-/* Disable admin bar by default - enable it for anybody who can write a post. */
+/* Disable admin bar by default - enable it for administrators only. */
 
-	function remove_admin_bar() {
-		if (!current_user_can('edit_posts') && !is_admin()) {
+function remove_admin_bar() {
+		if (!current_user_can('manage_options')&&!current_user_can('publish_study')){
 		show_admin_bar(false);
 		add_filter('show_admin_bar', '__return_false');
 	}
@@ -1288,3 +1288,31 @@ function ChangeNameValidationError() {
 }
 
 add_action( 'bp_signup_validate', 'ChangeNameValidationError' );
+
+
+/* =========== Functions for single-cro.php ============== */
+
+/* function to calculate average CRO rating */
+function average_rating(){
+	$croID = get_the_ID();
+	$crochildren =& types_child_posts('review');
+	$counter = 0;
+	$average_rating = 0;
+	
+	//loops through each review and grabs the rating, then returns average rating of all reviews
+	if ( $crochildren ) {
+		foreach ( $crochildren as $crochild ) {
+        	$childrating = get_post_meta($crochild->ID,'wpcf-rating',TRUE);
+            
+            $average_rating = $average_rating + $childrating;
+            $counter++;
+		}	
+		//round the average to the nearest 1/2 point, need to multiply by 10 at the end to get rid of decimal point
+		return (round(($average_rating/$counter)*2,0)/2)*10;
+
+	}
+	else {
+        //If no rating, return nothing.
+        return '0';
+    }
+}
